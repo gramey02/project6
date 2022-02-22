@@ -140,9 +140,25 @@ class LogisticRegression(BaseRegressor):
         Returns: 
             y_pred for given X
         """
+        # Addding bias term to X matrix if not already present
+        if X.shape[1] == self.num_feats:
+            X = np.hstack([X, np.ones((X.shape[0], 1))])
+        #implement sigmoid function
+        y_pred = X.dot(self.W).flatten()
 
+        return y_pred
+
+    
+    def sigmoid(self, z)
+    """
+    sigmoid function implementation
+    
+    Params:
+        z (np.ndarray): feature values and bias term
+    
+    Returns:
+        probability between 0 and 1
+    """
         pass
-
-
 
     
