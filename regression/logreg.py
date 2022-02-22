@@ -144,21 +144,9 @@ class LogisticRegression(BaseRegressor):
         if X.shape[1] == self.num_feats:
             X = np.hstack([X, np.ones((X.shape[0], 1))])
         #implement sigmoid function
-        y_pred = X.dot(self.W).flatten()
+        z = X.dot(self.W).flatten
+        y_pred = 1.0/(1 + np.exp(-z))
 
         return y_pred
-
-    
-    def sigmoid(self, z)
-    """
-    sigmoid function implementation
-    
-    Params:
-        z (np.ndarray): feature values and bias term
-    
-    Returns:
-        probability between 0 and 1
-    """
-        pass
 
     
