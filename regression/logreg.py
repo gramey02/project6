@@ -123,6 +123,9 @@ class LogisticRegression(BaseRegressor):
         Returns: 
             average loss 
         """
+        y_pred = self.make_prediction(X) #get predictions
+        
+        
         pass
     
     def make_prediction(self, X) -> np.array:
