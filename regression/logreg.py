@@ -110,9 +110,8 @@ class LogisticRegression(BaseRegressor):
             gradients for given loss function (np.ndarray)
         """
         y_pred = self.make_prediction(X) #make predictions
-        m = len(y)
-        #gradient is the derivative of the loss function w.r.t. the weights
-        dw = (1/m) * X.T.dot(y_pred - y)
+        m = len(y) #get the length of the predictions vector
+        dw = (1/m) * X.T.dot(y_pred - y) #partial derivative of the loss function w.r.t. the weights
         
         return dw
     
@@ -131,7 +130,7 @@ class LogisticRegression(BaseRegressor):
             average loss 
         """
         y_pred = self.make_prediction(X) #get predictions (probabilities)
-        #implement binary cross entropy loss
+        #implement binary cross entropy loss; poorly classified observations are penalized
         loss = -np.mean(y.dot(np.log(y_pred)) + (1-y).dot(np.log(1-y_pred)))
         
         return loss
@@ -152,8 +151,9 @@ class LogisticRegression(BaseRegressor):
         if X.shape[1] == self.num_feats:
             X = np.hstack([X, np.ones((X.shape[0], 1))])
         #implement sigmoid function
+        #transforms feature vectors to a probability between 1 and zero
         z = X.dot(self.W).flatten()
-        y_pred = 1.0/(1 + (1/np.exp(z)))
+        y_pred = 1.0/(1 + (1/np.exp(z))) #sigmoid function = 1/(1+e^-(w.X + b))
 
         return y_pred
 
