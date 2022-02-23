@@ -129,15 +129,8 @@ class LogisticRegression(BaseRegressor):
             average loss 
         """
         y_pred = self.make_prediction(X) #get predictions (probabilities)
-        y_classified = y_pred
-        #set cutoff value to be 0.5, and classify probabilities as 0 or 1 accordingly
-        for i in len(y_classified):
-            if y_classified[i]<0.5:
-                y_classified[i] = 0
-            else:
-                y_classified[i] = 1
-        #implement binary corss entropy loss
-        loss = -np.mean(y.dot(np.log(y_classified)) + (1-y).dot(np.log(1-y_classified)))
+        #implement binary cross entropy loss
+        loss = -np.mean(y.dot(np.log(y_pred)) + (1-y).dot(np.log(1-y_pred)))
         
         return loss
     
@@ -157,8 +150,8 @@ class LogisticRegression(BaseRegressor):
         if X.shape[1] == self.num_feats:
             X = np.hstack([X, np.ones((X.shape[0], 1))])
         #implement sigmoid function
-        z = X.dot(self.W).flatten
-        y_pred = 1.0/(1 + np.exp(-z))
+        z = X.dot(self.W).flatten()
+        y_pred = 1.0/(1 + (1/np.exp(z)))
 
         return y_pred
 
