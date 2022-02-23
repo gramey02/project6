@@ -107,6 +107,9 @@ class LogisticRegression(BaseRegressor):
         Returns: 
             gradients for given loss function (np.ndarray)
         """
+        y_pred = self.make_prediction(X) #make predictions
+        
+        
         pass
     
     def loss_function(self, X, y) -> float:
@@ -123,10 +126,18 @@ class LogisticRegression(BaseRegressor):
         Returns: 
             average loss 
         """
-        y_pred = self.make_prediction(X) #get predictions
+        y_pred = self.make_prediction(X) #get predictions (probabilities)
+        y_classified = y_pred
+        #set cutoff value to be 0.5, and classify probabilities as 0 or 1 accordingly
+        for i in len(y_classified):
+            if y_classified[i]<0.5:
+                y_classified[i] = 0
+            else:
+                y_classified[i] = 1
+        #implement binary corss entropy loss
+        loss = -np.mean(y.dot(np.log(y_classified)) + (1-y).dot(np.log(1-y_classified)))
         
-        
-        pass
+        return loss
     
     def make_prediction(self, X) -> np.array:
         """
@@ -140,7 +151,7 @@ class LogisticRegression(BaseRegressor):
         Returns: 
             y_pred for given X
         """
-        # Addding bias term to X matrix if not already present
+        # Adding bias term to X matrix if not already present
         if X.shape[1] == self.num_feats:
             X = np.hstack([X, np.ones((X.shape[0], 1))])
         #implement sigmoid function
