@@ -108,9 +108,11 @@ class LogisticRegression(BaseRegressor):
             gradients for given loss function (np.ndarray)
         """
         y_pred = self.make_prediction(X) #make predictions
+        m = len(y)
+        #gradient is the derivative of the loss function w.r.t. the weights
+        dw = (1/m) * X.T.dot(y_pred - y)
         
-        
-        pass
+        return dw
     
     def loss_function(self, X, y) -> float:
         """
