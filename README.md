@@ -1,3 +1,5 @@
+![BuildStatus](https://github.com/gramey02/project6/workflows/project6/badge.svg?event=push)
+
 # Project 6
 Logistic regression and application to medical record data
 
