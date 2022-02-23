@@ -44,7 +44,7 @@ def test_updates():
     #Check to see if your training losses approach zero (look at the loss_history_train vector) and are generally decreasing
     prev_num = 0.0
     current_num = 0.0
-    for i in range(log_model.loss_history_train):
+    for i in range(0,len(log_model.loss_history_train)):
         current_num = log_model.loss_history_train[i]
         #tends to stabilize around i=200, so start checking for decreasing values there
         if i>200:
