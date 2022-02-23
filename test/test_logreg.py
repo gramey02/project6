@@ -15,6 +15,8 @@ def test_updates():
     """
     Check training of the model
     """
+    np.random.seed(42) #set random seed for reproducibility
+    
     #create a logistic regression object with the following data
     X_train, X_val, y_train, y_val = utils.loadDataset(features=['Penicillin V Potassium 500 MG', 
                                                                  'Computed tomography of chest and abdomen',
@@ -69,6 +71,8 @@ def test_predict():
     """
     Check testing of the model
     """
+    np.random.seed(42) #set random seed for reproducibility
+    
     #create a logistic regression object with the following data
     X_train, X_val, y_train, y_val = utils.loadDataset(features=['Penicillin V Potassium 500 MG', 
                                                                  'Computed tomography of chest and abdomen',
@@ -100,7 +104,7 @@ def test_predict():
     
     
     #Check that reasonable estimates are given for NSCLC classification (i.e. all values are between 0 and 1)
-    y_pred = log_model.make_prediction(X_train)
+    y_pred = log_model.make_prediction(X_val)
     assert np.amin(y_pred)>=0
     assert np.amax(y_pred)<=1
     
@@ -115,9 +119,13 @@ def test_predict():
             y_classified[i] = 0
         else:
             y_classified[i] = 1
-
-    def accuracy():
+    def accuracy(y_classified, y_val):
+        #calculate how many correct predictions there were and divide by total # of predictions
+        accuracy = np.sum(y_val==y_classified)/len(y_val)
+        return accuracy
         
-    #(define an accuracy function which calculates the number of correct classifications and divides it by the # of total outcomes)
+    #accuracy for the above hyperparameters should generally be within the range of 0.845 to 0.865
+    assert accuracy(y_classified, y_val)<=0.865
+    assert accuracy(y_classified, y_val)>=0.845
 
     pass
