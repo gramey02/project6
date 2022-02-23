@@ -13,9 +13,10 @@ class BaseRegressor():
         self.max_iter = max_iter
         self.batch_size = batch_size
         self.num_feats = num_feats
-        # defining list for storing loss history
+        # defining list for storing loss and gradient history
         self.loss_history_train = []
         self.loss_history_val = []
+        self.grad_history = []
         
     def calculate_gradient(self, X, y):
         pass
@@ -58,6 +59,7 @@ class BaseRegressor():
                 prev_W = self.W
                 # Calculating gradient of loss function with respect to each parameter
                 grad = self.calculate_gradient(X_train, y_train)
+                self.grad_history.append(grad)
                 # Updating parameters
                 new_W = prev_W - self.lr * grad 
                 self.W = new_W
