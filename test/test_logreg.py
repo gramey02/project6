@@ -58,9 +58,34 @@ def test_predict():
     """
     Check testing of the model
     """
-    #Check that the weights are being updated (check if original weights before training and new weights after training are equal)
+    #create a logistic regression object with the following data
+    X_train, X_val, y_train, y_val = utils.loadDataset(features=['Penicillin V Potassium 500 MG', 
+                                                                 'Computed tomography of chest and abdomen',
+                                                                 'Plain chest X-ray (procedure)',
+                                                                 'Low Density Lipoprotein Cholesterol',
+                                                                 'Creatinine', 
+                                                                 'AGE_DIAGNOSIS'], 
+                                                       split_percent=0.8, split_state=42)
+    # scale data since values vary across features
+    sc = StandardScaler()
+    X_train = sc.fit_transform(X_train)
+    X_val = sc.transform (X_val)
+    
+    #create object
+    log_model = logreg.LogisticRegression(num_feats=6, max_iter=250, tol=0.0001, learning_rate=0.05, batch_size=12)
+    original_weights = log_model.W #capture initialized weights
+    
+    #train model
+    log_model.train_model(X_train, y_train, X_val, y_val)
+    new_weights = log_model.W #capture final weights
+    
+    #Check that the weights are being updated (i.e. check if original weights before training and new weights are NOT equal)
+    comparison = original_weights==new_weights
+    arrays_are_equal = comparison.all() #compares all array values to make sure they are equal at the same indices
+    assert arrays_are_equal==False
     
     #Check that reasonable estimates are given for NSCLC classification (i.e. all values are between 0 and 1)
+    
 
     # Check accuracy of model after training
     #(define an accuracy function which calculates the number of correct classifications and divides it by the # of total outcomes)
